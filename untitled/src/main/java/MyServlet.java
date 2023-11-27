@@ -74,6 +74,35 @@ public class MyServlet  extends HttpServlet {
                     "        }\n" +
                     "    ]\n" +
                     "}";
+            String jsonPeliuclas = "{\n" +
+                    "    \"message\": \"Este es un mensaje de ejemplo\",\n" +
+                    "    \"lstPeliculas\": [\n" +
+                    "        {\n" +
+                    "            \"id\": 1,\n" +
+                    "            \"titulo\": \"Pelicula 1\",\n" +
+                    "            \"descripcion\": \"Descripción de la Pelicula 1\",\n" +
+                    "            \"director\": \"Director 1\",\n" +
+                    "            \"anyo\": 2022,\n" +
+                    "            \"urlImagen\": \"https://pics.filmaffinity.com/300-177205452-msmall.jpg\"\n" +
+                    "        },\n" +
+                    "        {\n" +
+                    "            \"id\": 2,\n" +
+                    "            \"titulo\": \"Pelicula 2\",\n" +
+                    "            \"descripcion\": \"Descripción de la Pelicula 2\",\n" +
+                    "            \"director\": \"Director 2\",\n" +
+                    "            \"anyo\": 2023,\n" +
+                    "            \"urlImagen\": \"https://pics.filmaffinity.com/300-177205452-msmall.jpg\"\n" +
+                    "        },\n" +
+                    "        {\n" +
+                    "            \"id\": 3,\n" +
+                    "            \"titulo\": \"Pelicula 3\",\n" +
+                    "            \"descripcion\": \"Descripción de la Pelicula 3\",\n" +
+                    "            \"director\": \"Director 3\",\n" +
+                    "            \"anyo\": 2021,\n" +
+                    "            \"urlImagen\": \"https://pics.filmaffinity.com/300-177205452-msmall.jpg\"\n" +
+                    "        }\n" +
+                    "    ]\n" +
+                    "}\n";
             //out.print(convertUsersToJSONString(userList));
             // out.print(jsonResponseObject);
 
@@ -82,7 +111,7 @@ public class MyServlet  extends HttpServlet {
             /*request.setAttribute("message", message);
             request.getRequestDispatcher("/index.jsp").forward(request, response);
              */
-            out.print(peliculas);
+            out.print(jsonPeliuclas);
             out.close();
         }
 
