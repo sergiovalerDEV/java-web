@@ -1,12 +1,24 @@
 const express = require("express");
 const app = express(); // PATRÓN BUILDER EN TODA REGLA
+const router = express.Router();
 const PORT = 3000;
+
+/////////////
+const moviesRouter = require('./routes/moviesRouter');
+    // Usar el enrutador de películas
+    app.use('/movies', moviesRouter);
+    //app.use('/users', usersRouter);
+    // Iniciar el servidor
+////////
+
 
 app.use(express.json());
 
 app.listen(PORT, ()=>{
     console.log("Servidor funcionandoooo!!!!");
+    console.log(`El servidor está escuchando en http://localhost:${PORT}`);
 });
+
 /////////// QUERY PARAMSSS!!!!!!!
 // http://localhost:3000/usuarios?email=a@s.com&pass=123
 app.post("/usuarios", (req,res)=>{
