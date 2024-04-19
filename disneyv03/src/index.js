@@ -1,8 +1,11 @@
 const express = require("express");
+const cors = require('cors');
 const app = express(); // PATRÓN BUILDER EN TODA REGLA
 const router = express.Router();
 const PORT = 3000;
 
+
+app.use(cors());
 /////////////
 const moviesRouter = require('./routes/moviesRouter');
     // Usar el enrutador de películas
