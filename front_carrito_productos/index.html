@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Carrito de Compras</title>
+<link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <h1>Carrito de Compras</h1>
+    <div id="productos">
+        <!-- Los productos se cargarán aquí -->
+</div>
+
+
+<h2>Carrito</h2>
+    <div id="carrito">
+        <table>
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Total</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody id="itemsCarrito"></tbody>
+        </table>
+        <p>Subtotal: $<span id="subtotal">0</span></p>
+        <p>Total: $<span id="total">0</span></p>
+        <button onclick="finalizarCompra()">Finalizar Compra</button>
+    </div>
+
+
+
+<script src="js/data.js"></script>
+<script src="js/carrito.js"></script>
+<script src="js/index.js"></script>
+</body>
+</html>
