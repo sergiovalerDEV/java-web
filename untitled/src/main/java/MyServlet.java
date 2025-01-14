@@ -12,128 +12,42 @@ import java.util.List;
 
 @WebServlet("/MyServlet")
 public class MyServlet  extends HttpServlet {
-        protected void doGet(HttpServletRequest request, HttpServletResponse response)
-                throws IOException, ServletException {
-            // Procesa alguna lógica aquí
-            String message = "{message: 'Hola desde el Servlet'}";
-            response.setContentType("application/json");
+    private static final long serialVersionUID = 1L;
 
-            String action = request.getParameter("ACTION");
-            //String id= request.getParameter("id");
-            PrintWriter out = response.getWriter();
-            //out.print(message);a
-            String jsonResponse = "{\"message\": \"¡Hola desde el Servlet!_"+ action + "\"}";
+    // Bloque estático compartido entre hilos
+    private static final List<Integer> servletIds = new ArrayList<>();
+    private static final List<Integer> hashCodes = new ArrayList<>();
+    private static int instanceCount = 0;
 
-            String jsonResponseObject= "{\n" +
-                    "    \"message\": \"Este es un mensaje de ejemplo\",\n" +
-                    "    \"lstUsers\": [\n" +
-                    "        {\n" +
-                    "            \"username\": \"username1\",\n" +
-                    "            \"token\": \"token1\"\n" +
-                    "        },\n" +
-                    "        {\n" +
-                    "            \"username\": \"username2\",\n" +
-                    "            \"token\": \"token2\"\n" +
-                    "        },\n" +
-                    "        {\n" +
-                    "            \"username\": \"username3\",\n" +
-                    "            \"token\": \"token3\"\n" +
-                    "        }\n" +
-                    "    ]\n" +
-                    "}";
-            User user1 = new User("username1", "token1");
-            User user2 = new User("username2", "token2");
-
-            List<User> userList = new ArrayList<>();
-            userList.add(user1);
-            userList.add(user2);
-
-            String peliculas = "{\n" +
-                    "    \"message\": \"Este es un mensaje de ejemplo\",\n" +
-                    "    \"lstPeliculas\": [\n" +
-                    "        {\n" +
-                    "            \"id\": 1,\n" +
-                    "            \"titulo\": \"Pelicula 1\",\n" +
-                    "            \"descripcion\": \"Descripción de la Pelicula 1\",\n" +
-                    "            \"director\": \"Director 1\",\n" +
-                    "            \"anyo\": 2022\n" +
-                    "        },\n" +
-                    "        {\n" +
-                    "            \"id\": 2,\n" +
-                    "            \"titulo\": \"Pelicula 2\",\n" +
-                    "            \"descripcion\": \"Descripción de la Pelicula 2\",\n" +
-                    "            \"director\": \"Director 2\",\n" +
-                    "            \"anyo\": 2023\n" +
-                    "        },\n" +
-                    "        {\n" +
-                    "            \"id\": 3,\n" +
-                    "            \"titulo\": \"Pelicula 3\",\n" +
-                    "            \"descripcion\": \"Descripción de la Pelicula 3\",\n" +
-                    "            \"director\": \"Director 3\",\n" +
-                    "            \"anyo\": 2021\n" +
-                    "        }\n" +
-                    "    ]\n" +
-                    "}";
-            String jsonPeliuclas = "{\n" +
-                    "    \"message\": \"Este es un mensaje de ejemplo\",\n" +
-                    "    \"lstPeliculas\": [\n" +
-                    "        {\n" +
-                    "            \"id\": 1,\n" +
-                    "            \"titulo\": \"Pelicula 1\",\n" +
-                    "            \"descripcion\": \"Descripción de la Pelicula 1\",\n" +
-                    "            \"director\": \"Director 1\",\n" +
-                    "            \"anyo\": 2022,\n" +
-                    "            \"urlImagen\": \"https://pics.filmaffinity.com/300-177205452-msmall.jpg\"\n" +
-                    "        },\n" +
-                    "        {\n" +
-                    "            \"id\": 2,\n" +
-                    "            \"titulo\": \"Pelicula 2\",\n" +
-                    "            \"descripcion\": \"Descripción de la Pelicula 2\",\n" +
-                    "            \"director\": \"Director 2\",\n" +
-                    "            \"anyo\": 2023,\n" +
-                    "            \"urlImagen\": \"https://pics.filmaffinity.com/300-177205452-msmall.jpg\"\n" +
-                    "        },\n" +
-                    "        {\n" +
-                    "            \"id\": 3,\n" +
-                    "            \"titulo\": \"Pelicula 3\",\n" +
-                    "            \"descripcion\": \"Descripción de la Pelicula 3\",\n" +
-                    "            \"director\": \"Director 3\",\n" +
-                    "            \"anyo\": 2021,\n" +
-                    "            \"urlImagen\": \"https://pics.filmaffinity.com/300-177205452-msmall.jpg\"\n" +
-                    "        }\n" +
-                    "    ]\n" +
-                    "}\n";
-            //out.print(convertUsersToJSONString(userList));
-            // out.print(jsonResponseObject);
-
-            // Escribir el JSON en el PrintWriter
-            //out.print(jsonResponse);
-            /*request.setAttribute("message", message);
-            request.getRequestDispatcher("/index.jsp").forward(request, response);
-             */
-            out.print(jsonPeliuclas);
-            out.close();
+    public MyServlet() {
+        super();
+        synchronized (servletIds) {
+            servletIds.add(++instanceCount);
         }
-
-    public static String convertUsersToJSONString(List<User> users) {
-        StringBuilder jsonBuilder = new StringBuilder();
-        jsonBuilder.append("[");
-
-        for (int i = 0; i < users.size(); i++) {
-            User user = users.get(i);
-            jsonBuilder.append("{");
-            jsonBuilder.append("\"username\": \"").append(user.getUsername()).append("\", ");
-            jsonBuilder.append("\"token\": \"").append(user.getToken()).append("\"");
-            jsonBuilder.append("}");
-
-            // Si no es el último elemento, añade una coma
-            if (i < users.size() - 1) {
-                jsonBuilder.append(", ");
-            }
+        synchronized (hashCodes) {
+            hashCodes.add(System.identityHashCode(this));
         }
-
-        jsonBuilder.append("]");
-        return jsonBuilder.toString();
-    }
     }
 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
+
+        response.setContentType("text/plain");
+        PrintWriter out = response.getWriter();
+
+        synchronized (servletIds) { // monitor de sincronización
+            out.println("ID de la instancia actual: " + instanceCount);
+            out.println("IDs de todas las instancias activas: " + servletIds);
+            out.println("Número de hilos concurrentes: " + servletIds.size());
+        }
+        int currentHashCode = System.identityHashCode(this);
+        synchronized (hashCodes) {
+            out.println("Hash de la instancia actual: " + currentHashCode);
+            out.println("Hashes de todas las instancias: " + hashCodes);
+            out.println("Número total de instancias: " + hashCodes.size());
+        }
+
+    }
+}
+
+// http://192.168.104.50:8080/untitled/MyServlet?
